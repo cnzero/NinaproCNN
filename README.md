@@ -1,3 +1,6 @@
+# NinaproCNN
+Convolutional Neural Networks On Ninapro datasets
+
 ## Files structure and their explanation
 -. `usefulFcns.py`
     1. `SplitOnColumn`. split a 2D numpy array on its Column
