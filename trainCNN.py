@@ -200,7 +200,7 @@ with tf.name_scope('Accuracy'):
     tf.summary.scalar('accuracy', accuracy)
 
 # Use an AdamOptimizer to train the network
-train = tf.train.AdamOptimizer(1e-4).minimize(cross_entropy)
+train = tf.train.AdamOptimizer(1e-1).minimize(cross_entropy)
 
 # Visualization directory
 graph_dir = 'sEMGCNN'
