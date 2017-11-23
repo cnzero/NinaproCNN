@@ -9,18 +9,19 @@ ninapro = Ninapro()
 ninapro.splitImagesLabels()
 
 # Train
-print('ninapro.TrainImages shape: ', ninapro.TrainImages.shape)
-print('ninapro.TrainLabels shape: ',  ninapro.TrainLabels.shape)
+print('ninapro.TrainImages shape: ', ninapro.TrainImages.shape)   # m x 16 x 30
+print('ninapro.TrainLabels shape: ',  ninapro.TrainLabels.shape)  # m x 8
 # Test
-print('ninapro.TestImages shape: ', ninapro.TestImages.shape)
-print('ninapro.TestLabels shape: ', ninapro.TestLabels.shape)
+print('ninapro.TestImages shape: ', ninapro.TestImages.shape)     # m x 16 x 30
+print('ninapro.TestLabels shape: ', ninapro.TestLabels.shape)     # m x 8
 # Validate
-print('ninapro.ValidateImages shape: ', ninapro.ValidateImages.shape)
-print('ninapro.ValidateLabels shape: ', ninapro.ValidateLabels.shape)
+print('ninapro.ValidateImages shape: ', ninapro.ValidateImages.shape) # m x 16 x 30
+print('ninapro.ValidateLabels shape: ', ninapro.ValidateLabels.shape) # m x 8
 
 print('Read successfully  done...')
 
-
+# number of total classes of movements, 8 for exampel.
+nMV = ninapro.TrainLabels.shape[1]
 
 # - build the Convolutional Neural Network
 
@@ -28,7 +29,7 @@ print('Read successfully  done...')
 
 with tf.name_scope('Input'):
     x = tf.placeholder(tf.float32, shape=[None, 16,30], name='X')
-    y = tf.placeholder(tf.float32, shape=[None, 8], name='Labels')
+    y = tf.placeholder(tf.float32, shape=[None, nMV], name='Labels')
 
     if Debug:
         print('input x shape: ', x.shape)
@@ -159,11 +160,11 @@ with tf.name_scope('Fifth'):
 
     # flatten
     with tf.name_scope('Flatten'):
-        flatten5 = tf.reshape(act5, [-1, 16*30*8])
+        flatten5 = tf.reshape(act5, [-1, 16*30*fifthOut])
     # fully-connect layer
     with tf.name_scope('FullyCon'):
-        wfc5 = tf.Variable(tf.truncated_normal( [16*30*8, 8], stddev=0.1), name='W')
-        bfc5 = tf.Variable(tf.constant(0.1, shape=[8]), name='B')
+        wfc5 = tf.Variable(tf.truncated_normal( [16*30*fifthOut, nMV], stddev=0.1), name='W')
+        bfc5 = tf.Variable(tf.constant(0.1, shape=[nMV]), name='B')
         y_ = tf.nn.relu(tf.matmul(flatten5, wfc5) + bfc5)
 
     # summary
