@@ -2,6 +2,7 @@
 *.mat
 # too large data file.
 *.txt
+*.pkl
 
 # ignore python cache file
 *.pyc*
