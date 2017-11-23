@@ -1,0 +1,8 @@
+# ignore original [.mat] datasets file for sync on Github
+*.mat
+# too large data file.
+*.txt
+
+# ignore python cache file
+*.pyc*
+
