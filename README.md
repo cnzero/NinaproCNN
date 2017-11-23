@@ -24,5 +24,10 @@
 	5. write == read ? checking
 	6. time duration computation for every part.
 
+-. `classNinapro.py`
+    1. read [Images]&[Labels] from .pkl file
+	2. split [Images]&[Labels] to Train-Test-Validate parts with a proportion
+	3. `next_batch` for usage during CNN training.
+    
 ### [.mat] data file
 
