@@ -216,7 +216,7 @@ with tf.Session() as sess:
     writer.add_graph(sess.graph)
 
     for i in range(2000):
-        x_batch, y_batch = ninapro.next_batch(100)
+        x_batch, y_batch = ninapro.next_batch(30)
 
         # Occasionaly report accuracy of [train] and [test]
         if i%100==0:
