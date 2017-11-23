@@ -222,7 +222,8 @@ with tf.Session() as sess:
         if i%100==0:
             [train_accuracy] = sess.run([accuracy], feed_dict={x:x_batch, y:y_batch})
             [test_accuracy] = sess.run([accuracy], feed_dict={x:ninapro.TestImages, y:ninapro.TestLabels})
-            print('Step %d, training %g, testing %g.' % (i, train_accuracy, test_accuracy) )
+            [validate_accuracy] = sess.run([accuracy], feed_dict={x:ninapro.ValidateImages, y:ninapro.ValidateLabels} )
+            print('Step %d, training %g, testing %g, validate %g.' % (i, train_accuracy, test_accuracy, validate_accuracy) )
     
         # Occasionaly write visualization summary to disk file.
         if i%5==0:
