@@ -1,5 +1,6 @@
 from classNinapro import Ninapro
 import numpy as np
+from usefulFcns import *
 
 import tensorflow as tf
 print(tf.__version__)
@@ -103,7 +104,7 @@ with tf.name_scope('Third'):
     s3 = 1
     conv3 = tf.nn.conv2d(mp2, w3, strides=[1,s3,s3,1], padding='SAME')
     # detector
-    act3 = tf.nn.softmax(conv3 + b3)
+    act3 = tf.nn.relu(conv3 + b3)
     # maxpooling
     k3 = 3 # ksize of maxpooling
     ms3 = 1 # maxpooling stride = 3
@@ -174,6 +175,9 @@ with tf.name_scope('Fifth'):
     tf.summary.histogram('flatten', flatten5)
     tf.summary.histogram('weights_fc5', wfc5)
     tf.summary.histogram('biases_fc5', bfc5)
+    tf.summary.scalar('fifth_weights', w5[0, 0, 0, 0])
+    tf.summary.scalar('y_predict', np.argmax(y_[0,:]))
+    tf.summary.scalar('ylabels', np.argmax(y[0, :]))
 
 
     # dimensionality checking

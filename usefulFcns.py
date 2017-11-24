@@ -48,3 +48,12 @@ def SplitOnColumn(array2D, everyNcolumns):
         newArray3D[i, :, :] = array2D[:, everyNcolumns*i:everyNcolumns*(i+1) ]
     
     return newArray3D
+
+
+# oneHotRow 1xn,         [0, 1, 0, 0]
+# return scalar result,  0
+#def OneHotToLabel(oneHotRow):
+#    nColumns = oneHotRow.shape[1]
+#    labelIndex = list(range(nColumns))
+#    return np.sum( np.matmul( oneHotRow, labelIndex) )
+# [built-in] function [argmax()]    
