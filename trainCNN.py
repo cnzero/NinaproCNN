@@ -103,7 +103,7 @@ with tf.name_scope('Third'):
     s3 = 1
     conv3 = tf.nn.conv2d(mp2, w3, strides=[1,s3,s3,1], padding='SAME')
     # detector
-    act3 = tf.nn.relu(conv3 + b3)
+    act3 = tf.nn.softmax(conv3 + b3)
     # maxpooling
     k3 = 3 # ksize of maxpooling
     ms3 = 1 # maxpooling stride = 3
