@@ -9,3 +9,6 @@
 
 # ignore TensorBoard graph
 *sEMGCNN*
+
+# ignore test files
+test*
