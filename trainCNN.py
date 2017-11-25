@@ -176,8 +176,8 @@ with tf.name_scope('Fifth'):
     tf.summary.histogram('weights_fc5', wfc5)
     tf.summary.histogram('biases_fc5', bfc5)
     tf.summary.scalar('fifth_weights', w5[0, 0, 0, 0])
-    #tf.summary.scalar('y_predict', np.argmax(y_[0,:]))
-    #tf.summary.scalar('ylabels', np.argmax(y,axis=1))
+    tf.summary.scalar('y_predict', np.argmax(y_[0,:]))
+    tf.summary.scalar('ylabels', np.argmax(y[0,:],axis=1))
 
 
     # dimensionality checking
@@ -231,7 +231,7 @@ with tf.Session() as sess:
             [validate_accuracy] = sess.run([accuracy], feed_dict={x:ninapro.ValidateImages, y:ninapro.ValidateLabels} )
             print('Step %d, training %g, testing %g, validate %g.' % (i, train_accuracy, test_accuracy, validate_accuracy) )
             print(np.argmax(y_batch, axis=1))
-            print(y_)
+            print(np.argmax(sess.run([y_], feed_dict={x:x_batch, y:y_batch}), axis=1))
     
         # Occasionaly write visualization summary to disk file.
         if i%5==0:
@@ -239,6 +239,3 @@ with tf.Session() as sess:
             writer.add_summary(s,i)
         # Training the model
         sess.run(train, feed_dict={x:x_batch, y:y_batch})
-                
-
-
