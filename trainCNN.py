@@ -166,7 +166,8 @@ with tf.name_scope('Fifth'):
     with tf.name_scope('FullyCon'):
         wfc5 = tf.Variable(tf.truncated_normal( [16*30*fifthOut, nMV], stddev=0.1), name='W')
         bfc5 = tf.Variable(tf.constant(0.1, shape=[nMV]), name='B')
-        y_ = tf.nn.relu(tf.matmul(flatten5, wfc5) + bfc5)
+        #y_ = tf.nn.relu(tf.matmul(flatten5, wfc5) + bfc5)
+        y_ = tf.matmul(flatten5, wfc5) + bfc5
 
     # summary
     tf.summary.histogram('weights', w5)
@@ -176,8 +177,8 @@ with tf.name_scope('Fifth'):
     tf.summary.histogram('weights_fc5', wfc5)
     tf.summary.histogram('biases_fc5', bfc5)
     tf.summary.scalar('fifth_weights', w5[0, 0, 0, 0])
-    tf.summary.scalar('y_predict', np.argmax(y_[0,:]))
-    tf.summary.scalar('ylabels', np.argmax(y[0,:],axis=1))
+    #tf.summary.scalar('y_predict', np.argmax(y_[0,:]))
+    #tf.summary.scalar('ylabels', tf.argmax(y[0,:],axis=1))
 
 
     # dimensionality checking
@@ -206,7 +207,7 @@ with tf.name_scope('Accuracy'):
     tf.summary.scalar('accuracy', accuracy)
 
 # Use an AdamOptimizer to train the network
-train = tf.train.AdamOptimizer(1e-1).minimize(cross_entropy)
+train = tf.train.AdamOptimizer(1e-3).minimize(cross_entropy)
 
 # Visualization directory
 graph_dir = 'sEMGCNN'
@@ -230,9 +231,13 @@ with tf.Session() as sess:
             [test_accuracy] = sess.run([accuracy], feed_dict={x:ninapro.TestImages, y:ninapro.TestLabels})
             [validate_accuracy] = sess.run([accuracy], feed_dict={x:ninapro.ValidateImages, y:ninapro.ValidateLabels} )
             print('Step %d, training %g, testing %g, validate %g.' % (i, train_accuracy, test_accuracy, validate_accuracy) )
-            print(np.argmax(y_batch, axis=1))
-            print(np.argmax(sess.run([y_], feed_dict={x:x_batch, y:y_batch}), axis=1))
     
+            # backwards debug
+            [y_hat] = sess.run([tf.nn.softmax(y_)], feed_dict={x:x_batch, y:y_batch})
+            print(y_batch.shape)
+            print(y_hat.shape)
+            print(np.argmax(y_batch, axis=1))
+            print(np.argmax(y_hat, axis=1))
         # Occasionaly write visualization summary to disk file.
         if i%5==0:
             s = sess.run(merged_summary, feed_dict={x:x_batch, y:y_batch})
