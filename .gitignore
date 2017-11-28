@@ -12,3 +12,6 @@
 
 # ignore test files
 test*
+
+# ignore graph with TensorBoard
+graph*
