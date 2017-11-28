@@ -129,7 +129,7 @@ with tf.Session() as sess:
         x_batch, y_batch = ninapro.next_batch(100)
 
         # Occasionaly report accuracy of [train] and [test]
-        if i%100==0:
+        if i%400==0:
             [train_accuracy] = sess.run([accuracy], feed_dict={x:x_batch[:, partIndex, :], y:y_batch})
             [test_accuracy] = sess.run([accuracy], feed_dict={x:ninapro.TestImages[:, partIndex, :], y:ninapro.TestLabels})
             print('Step %d, training %g, testing %g.' % (i, train_accuracy, test_accuracy) )
