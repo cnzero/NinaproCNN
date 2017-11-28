@@ -49,7 +49,7 @@ if Debug:
 
 
 
-firstIn = nCh*30 # 16*30 = 480
+firstIn = nCh*30 # 13*30 = 480
 firstOut = 1024                                 # ---- number of hidden units in the first layer.
 with tf.name_scope('ReLu-1'):
     #w1 = tf.Variable(tf.truncated_normal([firstIn, firstOut], stddev=0.1), name = 'W')
