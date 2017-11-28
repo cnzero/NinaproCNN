@@ -47,7 +47,7 @@ with tf.name_scope('Flattern'):
 if Debug:
     print('x_image shape: ', x_flatten.shape)
 
-scale = 1000 # to avoid too small weights and biases
+scale = 1 # to avoid too small weights and biases
              # in that case, dW will be so small that it updates little.
 
 firstIn = nCh*30 # 13*30 = 480
@@ -109,7 +109,7 @@ with tf.name_scope('Accuracy'):
     tf.summary.scalar('accuracy', accuracy)
 
 # Use an AdamOptimizer to train the network
-train = tf.train.AdamOptimizer(1e-1).minimize(cross_entropy)
+train = tf.train.AdamOptimizer(1e1).minimize(cross_entropy)
 #train = tf.train.GradientDescentOptimizer(1e0).minimize(cross_entropy)
 
 # Visualization directory
@@ -125,11 +125,11 @@ with tf.Session() as sess:
     writer = tf.summary.FileWriter(graph_dir)
     writer.add_graph(sess.graph)
 
-    for i in range(10000):
+    for i in range(3000):
         x_batch, y_batch = ninapro.next_batch(100)
 
         # Occasionaly report accuracy of [train] and [test]
-        if i%400==0:
+        if i%300==0:
             [train_accuracy] = sess.run([accuracy], feed_dict={x:x_batch[:, partIndex, :], y:y_batch})
             [test_accuracy] = sess.run([accuracy], feed_dict={x:ninapro.TestImages[:, partIndex, :], y:ninapro.TestLabels})
             print('Step %d, training %g, testing %g.' % (i, train_accuracy, test_accuracy) )
