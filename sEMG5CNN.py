@@ -49,7 +49,7 @@ firstIn = 1
 firstOut = 32
 with tf.name_scope('First'):
     # convolution
-    w1 = tf.Variable(tf.truncated_normal([1,16, firstIn, firstOut], stddev=0.1), name = 'W')
+    w1 = 1000*tf.Variable(tf.truncated_normal([1,16, firstIn, firstOut], stddev=0.1), name = 'W')
     b1 = tf.Variable(tf.constant(0.1, shape=[firstOut]), name = 'B' )
     s1 = 1
     conv1 = tf.nn.conv2d(x_image, w1, strides=[1, s1, s1, 1], padding='SAME' )
@@ -222,11 +222,11 @@ with tf.Session() as sess:
     writer = tf.summary.FileWriter(graph_dir)
     writer.add_graph(sess.graph)
 
-    for i in range(2000):
+    for i in range(20000):
         x_batch, y_batch = ninapro.next_batch(30)
 
         # Occasionaly report accuracy of [train] and [test]
-        if i%100==0:
+        if i%500==0:
             [train_accuracy] = sess.run([accuracy], feed_dict={x:x_batch, y:y_batch})
             [test_accuracy] = sess.run([accuracy], feed_dict={x:ninapro.TestImages, y:ninapro.TestLabels})
             [validate_accuracy] = sess.run([accuracy], feed_dict={x:ninapro.ValidateImages, y:ninapro.ValidateLabels} )
@@ -234,8 +234,8 @@ with tf.Session() as sess:
     
             # backwards debug
             [y_hat] = sess.run([tf.nn.softmax(y_)], feed_dict={x:x_batch, y:y_batch})
-            print(y_batch.shape)
-            print(y_hat.shape)
+            #print(y_batch.shape)
+            #print(y_hat.shape)
             print(np.argmax(y_batch, axis=1))
             print(np.argmax(y_hat, axis=1))
         # Occasionaly write visualization summary to disk file.
@@ -244,3 +244,6 @@ with tf.Session() as sess:
             writer.add_summary(s,i)
         # Training the model
         sess.run(train, feed_dict={x:x_batch, y:y_batch})
+
+    [train_accuracy] = sess.run([accuracy], feed_dict={x:x_batch, y:y_batch})
+    print('Total train accuracy: ', train_accuracy)
