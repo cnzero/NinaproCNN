@@ -6,6 +6,7 @@
 
 # ignore python cache file
 *.pyc*
+*.swp
 
 # ignore TensorBoard graph
 *sEMGCNN*
