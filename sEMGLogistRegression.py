@@ -37,11 +37,11 @@ print('yTrain shape: ', yTrain.shape)
 xTest = np.reshape(ninapro.TestImages[:, partIndex, :], (-1, nCh*30))
 yTest = np.argmax(ninapro.TestLabels, axis=1)
 
-cBackup = [1, 1e1, 1e3, 1e5, 1e7, 1e9, 1e10, 1e11, 1e12, 1e13, 1e14,1e15]
+cBackup = [1, 1e1, 1e3, 1e5, 1e7, 1e9, 1e10, 1e11, 1e12, 1e13, 1e14,1e42]
 
 for c in cBackup:
     print(c)
-    logreg = linear_model.LogisticRegression(C=c, penalty='l1')
+    logreg = linear_model.LogisticRegression(C=c, penalty='l2')
     logreg.fit(xTrain, yTrain)
     accTrain = np.mean(yTrain==logreg.predict(xTrain))
     print('Train accuracy: ', accTrain)
